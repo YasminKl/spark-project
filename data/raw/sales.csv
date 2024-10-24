@@ -1,4 +1,4 @@
-OrderID,CustomerID,EmployeeID,OrderDate,RequiredDate,ShippedDate,ShipVia,Freight,ShipName,ShipAddress,ShipCity,ShipRegion,ShipPostalCode,ShipCountry,OrderID,ProductID,UnitPrice,Quantity,Discount
+OrderID0,CustomerID,EmployeeID,OrderDate,RequiredDate,ShippedDate,ShipVia,Freight,ShipName,ShipAddress,ShipCity,ShipRegion,ShipPostalCode,ShipCountry,OrderID,ProductID,UnitPrice,Quantity,Discount
 10248,VINET,5,7/4/96,8/1/96,7/16/96,3,32.38,Vins et alcools Chevalier,59 rue de l'Abbaye,Reims,,51100,France,10248,11,14,12,0
 10248,VINET,5,7/4/96,8/1/96,7/16/96,3,32.38,Vins et alcools Chevalier,59 rue de l'Abbaye,Reims,,51100,France,10248,42,9.8,10,0
 10248,VINET,5,7/4/96,8/1/96,7/16/96,3,32.38,Vins et alcools Chevalier,59 rue de l'Abbaye,Reims,,51100,France,10248,72,34.8,5,0

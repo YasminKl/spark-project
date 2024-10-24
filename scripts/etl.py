@@ -23,15 +23,9 @@ sales_df.write.mode("overwrite").parquet("output/bronze/sales")
 customers_df.write.mode("overwrite").parquet("output/bronze/customers")
 
 
-#Renommer colonne OrderID par OrderID0
-sales_df = sales_df.withColumnRenamed("OrderID", "OrderID0")
-
-#Creation de copie de OrderID comme OrderID1
-sales_df = sales_df.withColumn("OrderID1", sales_df["OrderID0"])
-
 #Affichage des premiers lignes pour verifier
-sales_df.show(2)
-customers_df.show(2)
+sales_df.show(5)
+customers_df.show(5)
 
 
 # *________* *________* *________* *________*
@@ -60,9 +54,6 @@ sales_clean_df = sales_clean_df.withColumn("Price", sales_clean_df["Price"].cast
 # Suppression des doublons
 sales_clean_df = sales_clean_df.dropDuplicates()
 
-# Suppression des doublons
-sales_clean_df = sales_clean_df.dropDuplicates()
-
 # Nettoyage du DataFrame customers_df
 customers_clean_df = customers_df.dropna(subset=["CustomerID", "ContactName", "Phone"]) \
     .select(
@@ -83,3 +74,37 @@ customers_clean_df = customers_clean_df.dropDuplicates()
 # Sauvegarder les données nettoyées dans la couche Silver
 sales_clean_df.write.mode("overwrite").parquet("output/silver/sales_clean")
 customers_clean_df.write.mode("overwrite").parquet("output/silver/customers_clean")
+
+# Vérification du schéma du DataFrame après la lecture
+print("clean sales schema :")
+sales_clean_df.printSchema()
+
+
+# *________* *________* *________* *________*
+
+
+#Couche GOLD
+
+# *________* *________* *________* *________*
+
+
+# Jointure des ventes et des clients
+enriched_df = sales_clean_df.join(customers_clean_df, "CustomerID")
+
+# Sauvegarder la table enrichie dans la couche Gold
+enriched_df.write.mode("overwrite").parquet("output/gold/enriched_sales")
+
+# Créer une vue temporaire pour interroger les données
+enriched_df.createOrReplaceTempView("enriched_sales")
+
+
+# Créer une vue temporaire pour interroger les données
+enriched_df.createOrReplaceTempView("enriched_sales")
+
+# Requête SQL pour calculer le revenu total par produit
+result = spark.sql(""" 
+    SELECT ProductID, SUM(Quantity * Price) as TotalRevenue 
+    FROM enriched_sales 
+    GROUP BY ProductID 
+""")
+result.show()
