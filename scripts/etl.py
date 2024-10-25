@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 
+
 # Créer une session Spark
 spark = SparkSession.builder     .appName("Mini Data Warehouse")     .config("spark.master", "local")     .getOrCreate()
 
@@ -108,3 +109,19 @@ result = spark.sql("""
     GROUP BY ProductID 
 """)
 result.show()
+
+# Configuration de l'URL et des propriétés JDBC
+jdbc_url = "jdbc:sqlserver://localhost:1433;databaseName=BDTest"
+jdbc_properties = {
+    "user": "ARIJ\\arijk",
+    "password": "",  # Ajoute ton mot de passe SQL Server si nécessaire
+    "driver": "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+}
+
+# Exporter le DataFrame vers SQL Server
+enriched_df.write.jdbc(
+    url=jdbc_url,
+    table="enriched_sales",
+    mode="overwrite",  # Modes disponibles: 'append', 'overwrite', 'ignore', 'error'
+    properties=jdbc_properties
+)
