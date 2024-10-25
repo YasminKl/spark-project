@@ -113,8 +113,8 @@ result.show()
 # Configuration de l'URL et des propriétés JDBC
 jdbc_url = "jdbc:sqlserver://localhost:1433;databaseName=BDTest"
 jdbc_properties = {
-    "user": "ARIJ\\arijk",
-    "password": "",  # Ajoute ton mot de passe SQL Server si nécessaire
+    "user": "DESKTOP-4EI700Q\SQLEXPRESS",
+    "password": "", 
     "driver": "com.microsoft.sqlserver.jdbc.SQLServerDriver"
 }
 
