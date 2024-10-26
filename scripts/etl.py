@@ -98,10 +98,6 @@ enriched_df.write.mode("overwrite").parquet("output/gold/enriched_sales")
 # Créer une vue temporaire pour interroger les données
 enriched_df.createOrReplaceTempView("enriched_sales")
 
-
-# Créer une vue temporaire pour interroger les données
-enriched_df.createOrReplaceTempView("enriched_sales")
-
 # Requête SQL pour calculer le revenu total par produit
 result = spark.sql(""" 
     SELECT ProductID, SUM(Quantity * Price) as TotalRevenue 
@@ -110,18 +106,3 @@ result = spark.sql("""
 """)
 result.show()
 
-# Configuration de l'URL et des propriétés JDBC
-jdbc_url = "jdbc:sqlserver://localhost:1433;databaseName=BDTest"
-jdbc_properties = {
-    "user": "DESKTOP-4EI700Q\yasmi",
-    "password": "", 
-    "driver": "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-}
-
-# Exporter le DataFrame vers SQL Server
-enriched_df.write.jdbc(
-    url=jdbc_url,
-    table="enriched_sales",
-    mode="overwrite",  # Modes disponibles: 'append', 'overwrite', 'ignore', 'error'
-    properties=jdbc_properties
-)
